@@ -4,20 +4,22 @@ import org.jnativehook.GlobalScreen;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-public class GlobalKeyListener implements NativeKeyListener
-{
-	public void nativeKeyPressed(NativeKeyEvent e)
-	{
-		System.out.println("key.pressed:" + e.getKeyText(e.getKeyCode()));
+import gkm.events.keyboard.GkmKeyEvent;
+import gkm.events.keyboard.GkmKeyEventType;
+
+public class GlobalKeyListener implements NativeKeyListener {
+	public void nativeKeyPressed(NativeKeyEvent e) {
+		GkmKeyEvent event = new GkmKeyEvent(GkmKeyEventType.PRESSED, e.getKeyCode(), e.getRawCode());
+		System.out.println("keyboard:" + event.toJson());
 	}
 
-	public void nativeKeyReleased(NativeKeyEvent e)
-	{
-		System.out.println("key.released:" + e.getKeyText(e.getKeyCode()));
+	public void nativeKeyReleased(NativeKeyEvent e) {
+		GkmKeyEvent event = new GkmKeyEvent(GkmKeyEventType.RELEASED, e.getKeyCode(), e.getRawCode());
+		System.out.println("keyboard:" + event.toJson());
 	}
 
-	public void nativeKeyTyped(NativeKeyEvent e)
-	{
-		System.out.println("key.typed:" + e.getKeyText(e.getKeyCode()));
+	public void nativeKeyTyped(NativeKeyEvent e) {
+		GkmKeyEvent event = new GkmKeyEvent(GkmKeyEventType.TYPED, e.getKeyCode(), e.getRawCode());
+		System.out.println("keyboard:" + event.toJson());
 	}
 }

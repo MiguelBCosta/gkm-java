@@ -5,51 +5,46 @@ import org.jnativehook.mouse.NativeMouseInputListener;
 import org.jnativehook.mouse.NativeMouseWheelEvent;
 import org.jnativehook.mouse.NativeMouseWheelListener;
 
+import org.json.JSONObject;
+
+import gkm.events.mouse.GkmMouseEvent;
+import gkm.events.mouse.GkmMouseEventType;
+import gkm.events.mouse.scroll.GkmScrollEvent;
+import gkm.events.mouse.scroll.GkmScrollDirection;
+
 public class GlobalMouseListener implements NativeMouseInputListener, NativeMouseWheelListener
 {
 	public void nativeMouseClicked(NativeMouseEvent e)
 	{
-		System.out.println("mouse.clicked:" + e.getClickCount());
+		GkmMouseEvent event = new GkmMouseEvent(GkmMouseEventType.CLICKED, e.getX(), e.getY(), e.getButton(), e.getClickCount());
+		System.out.println("mouse:" + event.toJson());
 	}
 
 	public void nativeMousePressed(NativeMouseEvent e)
 	{
-		System.out.println("mouse.pressed:" + e.getButton());
+		GkmMouseEvent event = new GkmMouseEvent(GkmMouseEventType.MOVED, e.getX(), e.getY(), e.getButton(), e.getClickCount());
+		System.out.println("mouse:" + event.toJson());
 	}
 
 	public void nativeMouseReleased(NativeMouseEvent e)
 	{
-		System.out.println("mouse.released:" + e.getButton());
+		GkmMouseEvent event = new GkmMouseEvent(GkmMouseEventType.MOVED, e.getX(), e.getY(), e.getButton(), e.getClickCount());
+		System.out.println("mouse:" + event.toJson());
 	}
 
 	public void nativeMouseMoved(NativeMouseEvent e)
 	{
-		System.out.println("mouse.moved:" + e.getX() + "," + e.getY());
+		GkmMouseEvent event = new GkmMouseEvent(GkmMouseEventType.MOVED, e.getX(), e.getY(), e.getButton(), e.getClickCount());
+		System.out.println("mouse:" + event.toJson());
 	}
 
 	public void nativeMouseDragged(NativeMouseEvent e)
 	{
-		System.out.println("mouse.dragged:" + e.getX() + "," + e.getY());
 	}
 
 	public void nativeMouseWheelMoved(NativeMouseWheelEvent e)
 	{
-		StringBuilder result = new StringBuilder();
-		result.append(e.getWheelRotation());
-		result.append(",");
-		result.append(e.getScrollAmount());
-		result.append(",");
-		switch (e.getScrollType()) {
-			case 1:
-				result.append("WHEEL_UNIT_SCROLL");
-				break;
-			case 2:
-				result.append("WHEEL_BLOCK_SCROLL");
-				break;
-			default:
-				result.append("UNKNOWN");
-		}
-
-		System.out.println("mouse.wheel.moved:" + result);
+		GkmScrollEvent event = new GkmScrollEvent(GkmScrollDirection.fromInt(e.getWheelRotation()), e.getScrollAmount());
+		System.out.println("mousewheel:" + event.toJson());
 	}
 }
